@@ -1,7 +1,9 @@
+extern crate csv;
 extern crate diesel;
 extern crate dol;
 
 use self::dol::*;
+use self::models::NewDiscovery;
 use std::io::{stdin, Read};
 
 fn main() {
@@ -15,7 +17,15 @@ fn main() {
     let mut description = String::new();
     stdin().read_to_string(&mut description).unwrap();
 
-    let discovery = create_discovery(&connection, name, name, &description, 5);
+    let new_discovery = NewDiscovery {
+        uid: 12,
+        category: "1",
+        name: "test",
+        description: "kkkk",
+        ..Default::default()
+    };
+
+    let discovery = create_discovery(&connection, new_discovery);
     println!("\nSaved draft {} with id {}", name, discovery.id);
 }
 

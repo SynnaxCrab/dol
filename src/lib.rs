@@ -19,24 +19,11 @@ pub fn establish_connection() -> PgConnection {
 
 use self::models::{Discovery, NewDiscovery};
 
-pub fn create_discovery<'a>(
-    conn: &PgConnection,
-    name: &'a str,
-    jp_name: &'a str,
-    description: &'a str,
-    level: i32,
-) -> Discovery {
+pub fn create_discovery<'a>(conn: &PgConnection, discovery: NewDiscovery) -> Discovery {
     use schema::discoveries;
 
-    let new_discovery = NewDiscovery {
-        name: name,
-        jp_name: jp_name,
-        description: description,
-        level: level,
-    };
-
     diesel::insert_into(discoveries::table)
-        .values(&new_discovery)
+        .values(&discovery)
         .get_result(conn)
         .expect("Error saving new post")
 }

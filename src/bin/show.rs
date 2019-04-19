@@ -10,17 +10,16 @@ fn main() {
 
     let connection = establish_connection();
     let results = discoveries
-        .filter(level.eq(5))
-        .limit(5)
+        .filter(category.eq("化石"))
+        //.limit(5)
         .load::<Discovery>(&connection)
         .expect("Error loading posts");
 
     println!("Displaying {} discoveries", results.len());
     for discovery in results {
         println!("{}", discovery.name);
-        println!("{}", discovery.jp_name);
         println!("{}", discovery.description);
-        println!("{}", discovery.level);
+        println!("{}", discovery.level.unwrap());
         println!("----------\n");
     }
 }
